@@ -14,3 +14,14 @@ SELECT course_offerings.teacher_id, course_offerings.period, courses.course_name
 FROM course_offerings
 LEFT JOIN courses ON course_offerings.course_id = courses.course_id  
 LEFT JOIN rooms ON  course_offerings.room_id = rooms.room_id;
+
+
+CREATE VIEW student_grades
+AS
+SELECT * FROM grade_book
+LEFT JOIN assignments ON grade_book.assignment_id = assignments.assignment_id
+LEFT JOIN course_offerings ON assignments.offering_id = course_offerings.offering_id
+
+ORDER BY course_offerings.offering_id
+LIMIT 100;
+
