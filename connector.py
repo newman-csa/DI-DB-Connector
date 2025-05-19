@@ -43,14 +43,38 @@ def print_student_schedule(id):
         print(f'Room: {row[3]}')
         print(f'Teacher: {row[4]} {row[5]}')
 
-cprint('(T)eacher or (S)tudent', 'red', attrs=['bold'])
-student_or_teacher = input('> ').lower()
+cprint('(T)eacher, (S)tudent, OR (A)dministrator', 'red', attrs=['bold'])
+login = input('> ').lower()
 
 cprint('\nEnter ID:', 'red', attrs=['bold'])
 id = input('> ')
 
-if student_or_teacher == 's':
-    print_student_schedule(id)
-elif student_or_teacher == 't':
-    print_teacher_schedule(id)
+if login == 's':
+    cprint('\nChoose Option:', 'red', attrs=['bold'])
+    print('(1) View Schedule')
+    print('(2) View Grades')
+    option = input('> ')
+    match option:
+        case '1':
+            pass
+        case '2':
+            pass
+        case _:
+            pass
 
+    print_student_schedule(id)
+elif login == 't':
+    cprint('\nChoose Option:', 'red', attrs=['bold'])
+    print('(1) View Schedule')
+    print('(2) Edit/View Grades')
+    option = input('> ')
+    match option:
+        case '1':
+            pass
+        case '2':
+            pass
+        case _:
+            pass
+    print_teacher_schedule(id)
+elif login == 'a':
+    pass
