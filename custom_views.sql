@@ -54,15 +54,15 @@ LEFT JOIN rooms ON course_offerings.room_id = rooms.room_id;
           period,
           course_type,
           (
-          AVG(
+          COALESCE(AVG(
           CASE
                     WHEN assignment_type = 'Major' THEN assignment_grade
           END
-          ) * 0.3 + AVG(
+          ) * 0.3, 0) + COALESCE(AVG(
           CASE
                     WHEN assignment_type = 'Minor' THEN assignment_grade
           END
-          ) * 0.7
+          ) * 0.7, 0)
           ) AS total_grade
      FROM uhhh
  GROUP BY student_id,
