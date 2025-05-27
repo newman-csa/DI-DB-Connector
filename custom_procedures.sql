@@ -23,7 +23,7 @@ DELIMITER ;
 DELIMITER // 
    CREATE PROCEDURE class_grades_by_student_id (id INTEGER) 
     BEGIN
-   SELECT * FROM student_grades
+   SELECT course_name, period, course_type, total_grade FROM student_grades
     WHERE student_id = id
  ORDER BY period;
       END // 
@@ -32,7 +32,7 @@ DELIMITER ;
 
 DELIMITER // 
    CREATE PROCEDURE average_grade_by_student_id (id INTEGER) BEGIN
-   SELECT AVG(weighted_average)
+   SELECT AVG(weighted_average) AS weighted_average
      FROM (
              SELECT CASE
                               WHEN course_type = 'AP' THEN total_grade * 1.1
