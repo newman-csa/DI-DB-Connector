@@ -1,4 +1,5 @@
 import mysql.connector
+from tabulate import tabulate
 from termcolor import cprint, colored
 
 # pip install mysql-connector-python
@@ -43,6 +44,14 @@ def print_student_schedule(id):
         print(f'Room: {row[3]}')
         print(f'Teacher: {row[4]} {row[5]}')
 
+
+def print_student_grades(id):
+    result = query_connection(f'CALL class_grades_by_student_id({id})')
+    print(tabulate(result, headers=['Course', 'Period', 'Designation', 'Grade'], tablefmt='psql'))
+    result = query_connection(f'CALL average_grade_by_student_id({id})')
+    print(colored('\nWeighted Average: ',attrs=['bold']) + str(result[0][0]))
+
+
 cprint('(T)eacher, (S)tudent, OR (A)dministrator', 'red', attrs=['bold'])
 login = input('> ').lower()
 
@@ -56,13 +65,13 @@ if login == 's':
     option = input('> ')
     match option:
         case '1':
-            pass
+            print_student_schedule(id)
         case '2':
-            pass
+            print_student_grades(id)
         case _:
             pass
 
-    print_student_schedule(id)
+    
 elif login == 't':
     cprint('\nChoose Option:', 'red', attrs=['bold'])
     print('(1) View Schedule')
@@ -70,7 +79,7 @@ elif login == 't':
     option = input('> ')
     match option:
         case '1':
-            pass
+            print_teacher_schedule(id)
         case '2':
             pass
         case _:
