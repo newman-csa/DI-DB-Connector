@@ -81,9 +81,26 @@ elif login == 't':
         case '1':
             print_teacher_schedule(id)
         case '2':
-            pass
+            result = query_connection(f'''SELECT course_offerings.offering_id,
+                                            courses.course_name,
+                                            course_offerings.period 
+                                            FROM course_offerings 
+                                            LEFT JOIN courses ON courses.course_id = course_offerings.course_id 
+                                            WHERE teacher_id = {id};''')
+            print('\n' + tabulate(result, headers=['ID', 'Course Name', 'Period'], tablefmt='psql'))
+            cprint('Enter ID', 'red', attrs=['bold'])
+            offering_id = input('> ').lower()
+
+            result = query_connection(f'SELECT assignment_id, assignment_name FROM assignments WHERE offering_id = {offering_id};')
+            print('\n' + tabulate(result, headers=['ID', 'Assignment Name'], tablefmt='psql'))
+            cprint('Enter ID', 'red', attrs=['bold'])
+            assignment_id = input('> ').lower()
+            
+            result = query_connection(f'CALL grades_by_assignment_id({assignment_id})')
+            print('\n' + tabulate(result, headers=['First Name', 'Last Name', 'Grade'], tablefmt='psql'))
         case _:
             pass
-    print_teacher_schedule(id)
 elif login == 'a':
     pass
+
+#! I'm only doing the first part of this project.
