@@ -43,3 +43,18 @@ DELIMITER //
           ) AS sub;
       END // 
 DELIMITER ;
+
+
+DELIMITER // 
+   CREATE PROCEDURE grades_by_assignment_id (id INTEGER) BEGIN
+   SELECT students.first_name, 
+          students.last_name, 
+          grade_book.assignment_grade   
+     FROM course_offerings  
+     LEFT JOIN assignments ON course_offerings.offering_id = assignments.offering_id  
+     LEFT JOIN grade_book ON assignments.assignment_id = grade_book.assignment_id  
+     LEFT JOIN students ON grade_book.student_id = students.student_id 
+    WHERE assignments.assignment_id = id;
+      END // 
+DELIMITER ;
+
